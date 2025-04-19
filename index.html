@@ -4,7 +4,109 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>doup96's Site</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 280px; /* Increased sidebar width */
+      background-color: #1f1f1f;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 20px;
+      font-size: 22px;
+      color: #00bfff;
+    }
+
+    .nav-link {
+      margin: 10px 0;
+      text-decoration: none;
+      color: #ddd;
+      padding: 8px;
+      border-radius: 6px;
+      transition: 0.2s;
+      display: block;
+    }
+
+    .nav-link:hover {
+      background-color: #333;
+      color: #00bfff;
+    }
+
+    /* Hover dropdown setup */
+    .hover-dropdown {
+      position: relative;
+    }
+
+    .hover-dropdown .nav-link {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .hover-dropdown .dropdown-content {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      max-height: 0;
+      margin-left: 10px;
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    .hover-dropdown:hover .dropdown-content {
+      max-height: 200px;
+      opacity: 1;
+      margin-top: 10px; /* Push the tabs below it */
+    }
+
+    /* Style for sub-links */
+    .sub-link {
+      font-size: 12px;  /* Smaller font */
+      color: #aaaaaa;   /* Light grey color */
+      margin: 5px 0;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .sub-link:hover {
+      color: #00bfff;
+    }
+
+    /* Main content area */
+    .main {
+      flex-grow: 1;
+      padding: 30px;
+      background-color: #f4f4f4;
+      overflow-y: auto;
+      display: flex;
+      justify-content: center; /* Center content horizontally */
+      align-items: center;     /* Center content vertically */
+      text-align: center;      /* Align text in the center */
+    }
+
+    .main h1 {
+      font-size: 2em;  /* Optional: Adjust the size of the title */
+    }
+
+    .main p {
+      font-size: 1.2em;  /* Optional: Adjust the size of the paragraph text */
+    }
+  </style>
 </head>
 <body>
   <div class="sidebar">
@@ -17,9 +119,9 @@
       
       <!-- Dropdown content (3 new tabs) -->
       <div class="dropdown-content">
-        <a href="#" class="sub-link">GuildbarRevert | Discord's New UI</a>
-        <a href="#" class="sub-link">Hide-Title | Discord's New UI</a>
-        <a href="#" class="sub-link">SmallProfile | Discord's New UI</a>
+        <a href="#" class="sub-link">GuildbarRevert</a>
+        <a href="#" class="sub-link">Hide-Title</a>
+        <a href="#" class="sub-link">SmallProfile</a>
       </div>
     </div>
 
