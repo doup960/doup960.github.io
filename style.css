@@ -11,7 +11,6 @@ body {
   overflow: hidden;
 }
 
-/* Sidebar */
 .sidebar {
   width: 220px;
   background-color: #1f1f1f;
@@ -19,7 +18,6 @@ body {
   display: flex;
   flex-direction: column;
   padding: 20px;
-  position: relative;
 }
 
 .sidebar h2 {
@@ -43,43 +41,49 @@ body {
   color: #00bfff;
 }
 
-/* Dropdown */
-.dropdown {
-  position: relative;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 40px;
-  left: 220px;
-  background-color: #2a2a2a;
-  padding: 10px;
-  border-radius: 6px;
-  z-index: 1;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  width: 160px;
-}
-
-.dropdown-content a {
-  display: block;
+/* Accordion Button */
+.accordion-button {
+  background: none;
+  border: none;
   color: #ddd;
-  text-decoration: none;
-  margin-bottom: 5px;
-  padding: 5px 10px;
-  border-radius: 4px;
+  text-align: left;
+  padding: 8px 0;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  transition: 0.2s;
 }
 
-.dropdown-content a:hover {
-  background-color: #444;
+.accordion-button:hover {
   color: #00bfff;
 }
 
-.dropdown:hover .dropdown-content {
-  display: block;
+/* Accordion Content */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  flex-direction: column;
+  margin-left: 10px;
 }
 
-/* Main content */
+.accordion-content.open {
+  max-height: 200px; /* enough height for 3 items */
+}
+
+.sub-link {
+  font-size: 14px;
+  color: #aaa;
+  margin: 5px 0;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.sub-link:hover {
+  color: #00bfff;
+}
+
+/* Main area */
 .main {
   flex-grow: 1;
   padding: 30px;
@@ -96,7 +100,6 @@ body {
   line-height: 1.6;
 }
 
-/* Scrollbar styling */
 .main::-webkit-scrollbar {
   width: 8px;
 }
