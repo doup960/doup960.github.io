@@ -41,34 +41,22 @@ body {
   color: #00bfff;
 }
 
-/* Accordion Button */
-.accordion-button {
-  background: none;
-  border: none;
-  color: #ddd;
-  text-align: left;
-  padding: 8px 0;
-  font-size: 16px;
-  cursor: pointer;
-  width: 100%;
-  transition: 0.2s;
+/* Hover dropdown setup */
+.hover-dropdown {
+  position: relative;
 }
 
-.accordion-button:hover {
-  color: #00bfff;
-}
-
-/* Accordion Content */
-.accordion-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
+.hover-dropdown .dropdown-content {
+  display: flex;
   flex-direction: column;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease;
   margin-left: 10px;
 }
 
-.accordion-content.open {
-  max-height: 200px; /* enough height for 3 items */
+.hover-dropdown:hover .dropdown-content {
+  max-height: 200px;
 }
 
 .sub-link {
@@ -83,28 +71,10 @@ body {
   color: #00bfff;
 }
 
-/* Main area */
+/* Main content area */
 .main {
   flex-grow: 1;
   padding: 30px;
   background-color: #f4f4f4;
   overflow-y: auto;
-}
-
-.main h1 {
-  margin-bottom: 20px;
-}
-
-.main p {
-  margin-bottom: 16px;
-  line-height: 1.6;
-}
-
-.main::-webkit-scrollbar {
-  width: 8px;
-}
-
-.main::-webkit-scrollbar-thumb {
-  background-color: #bbb;
-  border-radius: 4px;
 }
