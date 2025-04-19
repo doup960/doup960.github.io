@@ -3,31 +3,96 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to My Site</title>
+  <title>doup96's Site</title>
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f7f7f7;
-      color: #333;
-      text-align: center;
-      padding: 50px;
+      display: flex;
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      overflow: hidden;
     }
-    h1 {
-      color: #007acc;
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background-color: #1f1f1f;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
     }
-    a {
-      color: #007acc;
+
+    .sidebar h2 {
+      margin-bottom: 20px;
+      font-size: 22px;
+      color: #00bfff;
+    }
+
+    .nav-link {
+      margin: 10px 0;
       text-decoration: none;
+      color: #ddd;
+      padding: 8px;
+      border-radius: 6px;
+      transition: 0.2s;
     }
-    a:hover {
-      text-decoration: underline;
+
+    .nav-link:hover {
+      background-color: #333;
+      color: #00bfff;
+    }
+
+    /* Main content */
+    .main {
+      flex-grow: 1;
+      padding: 30px;
+      background-color: #f4f4f4;
+      overflow-y: auto;
+    }
+
+    .main h1 {
+      margin-bottom: 20px;
+    }
+
+    .main p {
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    /* Scrollbar styling (optional) */
+    .main::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .main::-webkit-scrollbar-thumb {
+      background-color: #bbb;
+      border-radius: 4px;
     }
   </style>
 </head>
 <body>
-  <h1>Welcome to My Website!</h1>
-  <p>This is my first GitHub Pages site.</p>
-  <p>Made with 💙 using GitHub Pages.</p>
-  <p><a href="https://github.com/doup960">Visit my GitHub</a></p>
+  <div class="sidebar">
+    <h2>doup96</h2>
+    <a href="#" class="nav-link">🏠 Home</a>
+    <a href="#" class="nav-link">📁 Projects</a>
+    <a href="#" class="nav-link">📜 About Me</a>
+    <a href="#" class="nav-link">📬 Contact</a>
+    <a href="https://github.com/doup960" class="nav-link" target="_blank">💻 GitHub</a>
+  </div>
+
+  <div class="main">
+    <h1>About Me</h1>
+    <p>Hey! I'm doup96. I make cool stuff with Roblox, Discord bots, and web projects. This site is still a work in progress, but I wanted to throw something up for now.</p>
+    <p>I enjoy working on interactive games, making my Discord server cleaner with bots, and exploring what’s possible with simple tools like HTML, Lua, and JS.</p>
+    <p>You'll find project updates, contact info, and some fun experiments right here as I expand the site.</p>
+    <p>Scroll around and stay tuned!</p>
+    <p style="margin-top: 40px;">✨ Thanks for stopping by ✨</p>
+  </div>
 </body>
 </html>
