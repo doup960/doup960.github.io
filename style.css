@@ -57,7 +57,7 @@ body {
   overflow: hidden;
   max-height: 0;
   margin-left: 10px;
-  transition: max-height 0.3s ease;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
   opacity: 0;
 }
 
