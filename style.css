@@ -1,0 +1,107 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  font-family: 'Segoe UI', sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background-color: #1f1f1f;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  position: relative;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #00bfff;
+}
+
+.nav-link {
+  margin: 10px 0;
+  text-decoration: none;
+  color: #ddd;
+  padding: 8px;
+  border-radius: 6px;
+  transition: 0.2s;
+  display: block;
+}
+
+.nav-link:hover {
+  background-color: #333;
+  color: #00bfff;
+}
+
+/* Dropdown */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 40px;
+  left: 220px;
+  background-color: #2a2a2a;
+  padding: 10px;
+  border-radius: 6px;
+  z-index: 1;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  width: 160px;
+}
+
+.dropdown-content a {
+  display: block;
+  color: #ddd;
+  text-decoration: none;
+  margin-bottom: 5px;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.dropdown-content a:hover {
+  background-color: #444;
+  color: #00bfff;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Main content */
+.main {
+  flex-grow: 1;
+  padding: 30px;
+  background-color: #f4f4f4;
+  overflow-y: auto;
+}
+
+.main h1 {
+  margin-bottom: 20px;
+}
+
+.main p {
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+/* Scrollbar styling */
+.main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main::-webkit-scrollbar-thumb {
+  background-color: #bbb;
+  border-radius: 4px;
+}
