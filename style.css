@@ -46,22 +46,31 @@ body {
   position: relative;
 }
 
+.hover-dropdown .nav-link {
+  display: flex;
+  justify-content: space-between;
+}
+
 .hover-dropdown .dropdown-content {
   display: flex;
   flex-direction: column;
   overflow: hidden;
   max-height: 0;
-  transition: max-height 0.3s ease;
   margin-left: 10px;
+  transition: max-height 0.3s ease;
+  opacity: 0;
 }
 
 .hover-dropdown:hover .dropdown-content {
   max-height: 200px;
+  opacity: 1;
+  margin-top: 10px; /* Push the tabs below it */
 }
 
+/* Style for sub-links */
 .sub-link {
-  font-size: 14px;
-  color: #aaa;
+  font-size: 12px;  /* Smaller font */
+  color: #aaaaaa;   /* Light grey color */
   margin: 5px 0;
   text-decoration: none;
   transition: 0.2s;
