@@ -12,7 +12,7 @@ body {
 }
 
 .sidebar {
-  width: 220px;
+  width: 280px; /* Increase the width of the sidebar */
   background-color: #1f1f1f;
   color: white;
   display: flex;
@@ -86,4 +86,16 @@ body {
   padding: 30px;
   background-color: #f4f4f4;
   overflow-y: auto;
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  align-items: center;     /* Center content vertically */
+  text-align: center;      /* Align text in the center */
+}
+
+.main h1 {
+  font-size: 2em;  /* Optional: Adjust the size of the title */
+}
+
+.main p {
+  font-size: 1.2em;  /* Optional: Adjust the size of the paragraph text */
 }
