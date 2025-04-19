@@ -4,85 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>doup96's Site</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      display: flex;
-      font-family: 'Segoe UI', sans-serif;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* Sidebar */
-    .sidebar {
-      width: 220px;
-      background-color: #1f1f1f;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      padding: 20px;
-    }
-
-    .sidebar h2 {
-      margin-bottom: 20px;
-      font-size: 22px;
-      color: #00bfff;
-    }
-
-    .nav-link {
-      margin: 10px 0;
-      text-decoration: none;
-      color: #ddd;
-      padding: 8px;
-      border-radius: 6px;
-      transition: 0.2s;
-    }
-
-    .nav-link:hover {
-      background-color: #333;
-      color: #00bfff;
-    }
-
-    /* Main content */
-    .main {
-      flex-grow: 1;
-      padding: 30px;
-      background-color: #f4f4f4;
-      overflow-y: auto;
-    }
-
-    .main h1 {
-      margin-bottom: 20px;
-    }
-
-    .main p {
-      margin-bottom: 16px;
-      line-height: 1.6;
-    }
-
-    /* Scrollbar styling (optional) */
-    .main::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    .main::-webkit-scrollbar-thumb {
-      background-color: #bbb;
-      border-radius: 4px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="sidebar">
     <h2>doup96</h2>
-    <a href="#" class="nav-link">🏠 Home</a>
-    <a href="#" class="nav-link">📁 Projects</a>
-    <a href="#" class="nav-link">📜 About Me</a>
-    <a href="#" class="nav-link">📬 Contact</a>
+    <a href="index.html" class="nav-link">🏠 Home</a>
+
+    <div class="dropdown">
+      <a href="projects.html" class="nav-link">📁 Projects ▾</a>
+      <div class="dropdown-content">
+        <a href="#">Roblox Games</a>
+        <a href="#">Discord Bots</a>
+        <a href="#">Other Stuff</a>
+      </div>
+    </div>
+
+    <a href="about.html" class="nav-link">📜 About Me</a>
+    <a href="contact.html" class="nav-link">📬 Contact</a>
     <a href="https://github.com/doup960" class="nav-link" target="_blank">💻 GitHub</a>
   </div>
 
