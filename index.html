@@ -9,19 +9,19 @@
 <body>
   <div class="sidebar">
     <h2>doup96</h2>
-    <a href="index.html" class="nav-link">🏠 Home</a>
+    <a href="#" class="nav-link">🏠 Home</a>
 
-    <div class="dropdown">
-      <a href="projects.html" class="nav-link">📁 Projects ▾</a>
-      <div class="dropdown-content">
-        <a href="#">Roblox Games</a>
-        <a href="#">Discord Bots</a>
-        <a href="#">Other Stuff</a>
+    <div class="accordion">
+      <button class="accordion-button">📁 Projects ▾</button>
+      <div class="accordion-content">
+        <a href="#" class="sub-link">Roblox Games</a>
+        <a href="#" class="sub-link">Discord Bots</a>
+        <a href="#" class="sub-link">Other Stuff</a>
       </div>
     </div>
 
-    <a href="about.html" class="nav-link">📜 About Me</a>
-    <a href="contact.html" class="nav-link">📬 Contact</a>
+    <a href="#" class="nav-link">📜 About Me</a>
+    <a href="#" class="nav-link">📬 Contact</a>
     <a href="https://github.com/doup960" class="nav-link" target="_blank">💻 GitHub</a>
   </div>
 
@@ -30,8 +30,17 @@
     <p>Hey! I'm doup96. I make cool stuff with Roblox, Discord bots, and web projects. This site is still a work in progress, but I wanted to throw something up for now.</p>
     <p>I enjoy working on interactive games, making my Discord server cleaner with bots, and exploring what’s possible with simple tools like HTML, Lua, and JS.</p>
     <p>You'll find project updates, contact info, and some fun experiments right here as I expand the site.</p>
-    <p>Scroll around and stay tuned!</p>
     <p style="margin-top: 40px;">✨ Thanks for stopping by ✨</p>
   </div>
+
+  <script>
+    // Simple accordion toggle
+    document.querySelectorAll('.accordion-button').forEach(button => {
+      button.addEventListener('click', () => {
+        const content = button.nextElementSibling;
+        content.classList.toggle('open');
+      });
+    });
+  </script>
 </body>
 </html>
