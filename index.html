@@ -16,15 +16,20 @@
       font-family: 'Segoe UI', sans-serif;
       height: 100vh;
       overflow: hidden;
+      flex-direction: row;
     }
 
     .sidebar {
-      width: 220px;
+      width: 250px;
       background-color: #1f1f1f;
       color: white;
       display: flex;
       flex-direction: column;
       padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
     }
 
     .sidebar h2 {
@@ -39,7 +44,7 @@
       color: #ddd;
       padding: 8px;
       border-radius: 6px;
-      transition: 0.2s;
+      transition: 0.35s;
       display: block;
     }
 
@@ -58,12 +63,12 @@
       flex-direction: column;
       overflow: hidden;
       max-height: 0;
-      transition: max-height 0.5s ease-in-out; /* Smooth opening */
+      transition: max-height 0.35s ease-in-out;
       margin-left: 10px;
     }
 
     .hover-dropdown:hover .dropdown-content {
-      max-height: 200px; /* The height when expanded */
+      max-height: 200px;
     }
 
     .sub-link {
@@ -80,29 +85,31 @@
 
     /* Main content area */
     .main {
+      margin-left: 250px;
       flex-grow: 1;
       padding: 30px;
       background-color: #f4f4f4;
-      overflow-y: auto;
-    }
-
-    /* Make sidebar a bit bigger */
-    .sidebar {
-      width: 250px; /* Increased width */
-    }
-
-    .nav-link {
-      font-size: 16px; /* Increased font size for better readability */
-    }
-
-    /* Center the content in the remaining space */
-    .main {
       display: flex;
-      justify-content: center;
-      align-items: center;
+      flex-direction: column;
+      align-items: center; /* Center the content */
       text-align: center;
     }
 
+    .main-content {
+      display: flex;
+      flex-direction: column; /* Align the content vertically */
+      align-items: center; /* Horizontally center the items */
+    }
+
+    .main-content h1 {
+      font-size: 32px;
+      margin-bottom: 20px; /* Space between heading and paragraph */
+    }
+
+    .main-content p {
+      font-size: 18px;
+      margin-top: 0;
+    }
   </style>
 </head>
 <body>
@@ -125,9 +132,11 @@
   </div>
 
   <div class="main">
-    <h1>About Me</h1>
-    <p>Hi, I'm doup96. This is my personal site for Roblox projects, Discord bots, and other fun stuff I'm working on.</p>
-    <p>Stick around — more coming soon!</p>
+    <!-- Home Page Content -->
+    <div class="main-content">
+      <h1>Welcome</h1>
+      <p>Thanks for visiting my personal site! I'm working on various projects, including Discord bots, Roblox games, and more. Feel free to check out my work!</p>
+    </div>
   </div>
 </body>
 </html>
