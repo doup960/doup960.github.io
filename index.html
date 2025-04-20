@@ -44,42 +44,12 @@
       color: #ddd;
       padding: 8px;
       border-radius: 6px;
-      transition: 0.35s;
+      transition: 0.2s;
       display: block;
     }
 
     .nav-link:hover {
       background-color: #333;
-      color: #00bfff;
-    }
-
-    /* Hover dropdown setup */
-    .hover-dropdown {
-      position: relative;
-    }
-
-    .hover-dropdown .dropdown-content {
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      max-height: 0;
-      transition: max-height 0.35s ease-in-out;
-      margin-left: 10px;
-    }
-
-    .hover-dropdown:hover .dropdown-content {
-      max-height: 200px;
-    }
-
-    .sub-link {
-      font-size: 14px;
-      color: #aaa;
-      margin: 5px 0;
-      text-decoration: none;
-      transition: 0.2s;
-    }
-
-    .sub-link:hover {
       color: #00bfff;
     }
 
@@ -91,25 +61,66 @@
       background-color: #f4f4f4;
       display: flex;
       flex-direction: column;
-      align-items: center; /* Center the content */
+      align-items: center;
       text-align: center;
     }
 
     .main-content {
       display: flex;
-      flex-direction: column; /* Align the content vertically */
-      align-items: center; /* Horizontally center the items */
+      flex-direction: column;
+      align-items: center;
     }
 
     .main-content h1 {
       font-size: 32px;
-      margin-bottom: 20px; /* Space between heading and paragraph */
+      margin-bottom: 20px;
     }
 
     .main-content p {
       font-size: 18px;
       margin-top: 0;
     }
+
+    /* Dropdown menu styles */
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #333;
+      width: 200px;
+      top: 100%;
+      left: 0;
+      z-index: 1;
+      border-radius: 6px; /* Rounded corners for the dropdown container */
+    }
+
+    .dropdown-content a {
+      color: #ddd;
+      padding: 8px;
+      text-decoration: none;
+      display: block;
+      transition: 0.2s;
+      border-top: 1px solid #222; /* Dark line between items */
+    }
+
+    /* Remove rounded corners for the individual items */
+    .dropdown-content a:first-child {
+      border-top: none; /* No border at the top of the first item */
+    }
+
+    .dropdown-content a:hover {
+      background-color: #444;
+      color: #00bfff;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+      transition: 0.35s ease;
+    }
+
   </style>
 </head>
 <body>
@@ -117,8 +128,18 @@
     <h2>doup96</h2>
     <a href="#" class="nav-link">🏠 Home</a>
 
-    <div class="hover-dropdown">
-      <div class="nav-link">📁 Projects ▾</div>
+    <!-- Projects Tab with Dropdown -->
+    <div class="dropdown">
+      <a href="#" class="nav-link">📁 Projects</a>
+      <div class="dropdown-content">
+        <a href="#" class="sub-link">Other Project 1</a>
+        <a href="#" class="sub-link">Other Project 2</a>
+      </div>
+    </div>
+
+    <!-- Discord UI Tab with Dropdown -->
+    <div class="dropdown">
+      <a href="#" class="nav-link">💬 Discord UI</a>
       <div class="dropdown-content">
         <a href="https://doup960.github.io/GuildbarRevert.css" class="sub-link">GuildbarRevert</a>
         <a href="https://doup960.github.io/HideTitle.css" class="sub-link">Hide-Title</a>
