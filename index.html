@@ -1,1 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Password Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Advanced Password Generator</h1>
 
+    <div class="control-group">
+        <label for="length">Length:</label>
+        <input type="range" id="length" min="8" max="64" value="16">
+        <span id="length-value">16</span>
+    </div>
+
+    <div class="security-info">
+        <div class="strength-meter">
+            <div class="strength-bar" id="strength-bar"></div>
+        </div>
+        <div id="entropy">Entropy: 0 bits</div>
+    </div>
+
+    <div id="strength-text">Strength: Unknown</div>
+
+    <div class="control-group">
+        <label for="prefix">Prefix:</label>
+        <input type="text" id="prefix">
+        <label for="postfix">Postfix:</label>
+        <input type="text" id="postfix">
+    </div>
+
+    <div class="control-group">
+        <label for="num-passwords">Number:</label>
+        <input type="number" id="num-passwords" min="1" max="50" value="5">
+    </div>
+
+    <div class="checkbox-group">
+        <div class="checkbox-item">
+            <input type="checkbox" id="uppercase" checked>
+            <label for="uppercase">A-Z Uppercase</label>
+        </div>
+        <div class="checkbox-item">
+            <input type="checkbox" id="digits" checked>
+            <label for="digits">0-9 Digits</label>
+        </div>
+        <div class="checkbox-item">
+            <input type="checkbox" id="special" checked>
+            <label for="special">!@# Special Chars</label>
+        </div>
+    </div>
+
+    <button id="generate-btn">🚀 GENERATE PASSWORDS</button>
+
+    <textarea id="output" readonly></textarea>
+
+    <button id="copy-btn">📋 COPY ALL PASSWORDS</button>
+
+    <script>
+
+        const lengthSlider = document.getElementById('length');
+        const lengthValue = document.getElementById('length-value');
+        const uppercaseCheck = document.getElementById('uppercase');
+        const digitsCheck = document.getElementById('digits');
+        const specialCheck = document.getElementById('special');
+        const prefixInput = document.getElementById('prefix');
+        const postfixInput = document.getElementById('postfix');
+        const numPasswordsInput = document.getElementById('num-passwords');
+        const generateBtn = document.getElementById('generate-btn');
+        const copyBtn = document.getElementById('copy-btn');
+        const outputArea = document.getElementById('output');
+        const strengthBar = document.getElementById('strength-bar');
+        const strengthText = document.getElementById('strength-text');
+        const entropyText = document.getElementById('entropy');
+
+        lengthSlider.addEventListener('input', function() {
+            lengthValue.textContent = this.value;
+            updateStrengthBar();
+        });
+
+        [uppercaseCheck, digitsCheck, specialCheck].forEach(checkbox => {
+            checkbox.addEventListener('change', updateStrengthBar);
+        });
+
+        generateBtn.addEventListener('click', generatePasswords);
+
+        copyBtn.addEventListener('click', function() {
+            if (outputArea.value) {
+                navigator.clipboard.writeText(outputArea.value)
+                    .then(() => alert('All passwords copied to clipboard! 📋'))
+                    .catch(err => alert('Failed to copy: ' + err));
+            } else {
+                alert('Generate passwords first!');
+            }
+        });
+
+        function calculateEntropy(length, charSetSize) {
+            if (charSetSize <= 0 || length <= 0) return 0;
+            return length * Math.log2(charSetSize);
+        }
+
+        function updateStrengthBar() {
+            const length = parseInt(lengthSlider.value);
+            let charSet = 0;
+
+            charSet += 26;
+
+            if (uppercaseCheck.checked) charSet += 26;
+            if (digitsCheck.checked) charSet += 10;
+            if (specialCheck.checked) charSet += 20;
+
+            const entropy = calculateEntropy(length, charSet);
+            entropyText.textContent = `Entropy: ${entropy.toFixed(1)} bits`;
+
+            const strengthPercent = Math.min(100, (entropy / 128) * 100);
+            strengthBar.style.width = strengthPercent + '%';
+
+            let strength, color;
+            if (entropy < 40) {
+                strength = "Weak";
+                color = "var(--warning-color)";
+            } else if (entropy < 70) {
+                strength = "Good";
+                color = "#ffeb3b";
+            } else if (entropy < 100) {
+                strength = "Strong";
+                color = "var(--success-color)";
+            } else {
+                strength = "Very Strong";
+                color = "var(--accent-color)";
+            }
+
+            strengthText.textContent = `Strength: ${strength}`;
+            strengthBar.style.backgroundColor = color;
+        }
+
+        function generatePasswords() {
+            const length = parseInt(lengthSlider.value);
+            const num = parseInt(numPasswordsInput.value);
+            const prefix = prefixInput.value;
+            const postfix = postfixInput.value;
+
+            const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+            const uppercase = uppercaseCheck.checked ? 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' : '';
+            const digits = digitsCheck.checked ? '0123456789' : '';
+            const special = specialCheck.checked ? '!@#$%^&*()_-+=<>?/[]{}|' : '';
+
+            const chars = lowercase + uppercase + digits + special;
+
+            if (!chars) {
+                alert('No character set selected!');
+                return;
+            }
+
+            const passwords = [];
+            for (let i = 0; i < num; i++) {
+
+                const coreLength = Math.max(1, length - prefix.length - postfix.length);
+
+                let passwordParts = [];
+                if (lowercase) passwordParts.push(getRandomChar(lowercase));
+                if (uppercase) passwordParts.push(getRandomChar(uppercase));
+                if (digits) passwordParts.push(getRandomChar(digits));
+                if (special) passwordParts.push(getRandomChar(special));
+
+                const remainingLength = coreLength - passwordParts.length;
+                if (remainingLength > 0) {
+                    for (let j = 0; j < remainingLength; j++) {
+                        passwordParts.push(getRandomChar(chars));
+                    }
+                }
+
+                passwordParts = shuffleArray(passwordParts);
+
+                passwords.push(prefix + passwordParts.join('') + postfix);
+            }
+
+            outputArea.value = passwords.join('\n');
+
+            updateStrengthBar();
+        }
+
+        function getRandomChar(str) {
+            return str[Math.floor(Math.random() * str.length)];
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        updateStrengthBar();
+    </script>
+</body>
+</html>
