@@ -9,6 +9,25 @@
     --success-color: #69f0ae;
 }
 
+/* Debugging border - will disappear if CSS loads */
+body {
+    border: 3px solid #00ff00 !important;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { border-color: #00ff00; }
+    50% { border-color: #00cc00; }
+    100% { border-color: #00ff00; }
+}
+
+/* Remove debug border when CSS fully loads */
+body.loaded {
+    border: none !important;
+    animation: none;
+}
+
+/* Main styles */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg-color);
@@ -17,6 +36,7 @@ body {
     margin: 0 auto;
     padding: 20px;
     line-height: 1.6;
+    transition: background-color 0.5s;
 }
 
 h1 {
@@ -150,6 +170,14 @@ textarea {
     margin-bottom: 15px;
 }
 
+#debug-message {
+    display: none;
+    padding: 10px;
+    background: #ff0000;
+    color: white;
+    margin-top: 20px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
     body {
@@ -170,3 +198,10 @@ textarea {
         margin-bottom: 5px;
     }
 }
+
+/* Add loaded class when CSS finishes loading */
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        document.body.classList.add('loaded');
+    }, 100);
+});
