@@ -3,237 +3,957 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Password Generator</title>
-    <link rel="stylesheet" href="./style.css">
-    <!-- Debugging script -->
-    <script>
-        console.log("HTML loaded successfully");
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log("DOM fully loaded");
-            // Temporary debug background
-            document.body.style.backgroundColor = '#121212';
-            console.log("Default background color set");
-        });
-    </script>
+    <title>ULTRA Password Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-darker: #020617;
+            --card-bg: #1e293b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--bg-darker);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--accent), #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-radius: 6px 6px 0 0;
+            font-weight: 500;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+        }
+
+        .tab.active {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .control-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-dark);
+            border-radius: 4px;
+            -webkit-appearance: none;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--accent);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item input {
+            width: 16px;
+            height: 16px;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-dark);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            resize: none;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .password-strength {
+            margin-top: 1rem;
+        }
+
+        .strength-meter {
+            height: 8px;
+            background: var(--bg-dark);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s ease;
+        }
+
+        .analysis-results {
+            margin-top: 1rem;
+        }
+
+        .analysis-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .analysis-item:last-child {
+            border-bottom: none;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .badge-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        .password-history {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            background: var(--bg-dark);
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-item .password {
+            font-family: 'Courier New', monospace;
+            flex-grow: 1;
+        }
+
+        .history-item .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            text-align: center;
+            border-radius: 6px;
+            padding: 0.5rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                overflow-x: auto;
+                padding-bottom: 0;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Advanced Password Generator</h1>
-    
-    <div class="control-group">
-        <label for="length">Length:</label>
-        <input type="range" id="length" min="8" max="64" value="16">
-        <span id="length-value">16</span>
-    </div>
-    
-    <div class="security-info">
-        <div class="strength-meter">
-            <div class="strength-bar" id="strength-bar"></div>
-        </div>
-        <div id="entropy">Entropy: 0 bits</div>
-    </div>
-    
-    <div id="strength-text">Strength: Unknown</div>
-    
-    <div class="control-group">
-        <label for="prefix">Prefix:</label>
-        <input type="text" id="prefix">
-        <label for="postfix">Postfix:</label>
-        <input type="text" id="postfix">
-    </div>
-    
-    <div class="control-group">
-        <label for="num-passwords">Number:</label>
-        <input type="number" id="num-passwords" min="1" max="50" value="5">
-    </div>
-    
-    <div class="checkbox-group">
-        <div class="checkbox-item">
-            <input type="checkbox" id="lowercase" checked>
-            <label for="lowercase">a-z Lowercase</label>
-        </div>
-        <div class="checkbox-item">
-            <input type="checkbox" id="uppercase" checked>
-            <label for="uppercase">A-Z Uppercase</label>
-        </div>
-        <div class="checkbox-item">
-            <input type="checkbox" id="digits" checked>
-            <label for="digits">0-9 Digits</label>
-        </div>
-        <div class="checkbox-item">
-            <input type="checkbox" id="special" checked>
-            <label for="special">!@# Special Chars</label>
-        </div>
-    </div>
-    
-    <button id="generate-btn">🚀 GENERATE PASSWORDS</button>
-    
-    <textarea id="output" readonly></textarea>
-    
-    <button id="copy-btn">📋 COPY ALL PASSWORDS</button>
+    <div class="container">
+        <header>
+            <h1>ULTRA Password Generator</h1>
+            <p class="subtitle">Generate, analyze, and manage secure passwords</p>
+        </header>
 
-    <!-- Debug element (visible only if CSS fails to load) -->
-    <div id="debug-message" style="color: red; display: none;">
-        CSS failed to load! Check console for errors.
+        <div class="tabs">
+            <div class="tab active" data-tab="generator">Generator</div>
+            <div class="tab" data-tab="analyzer">Analyzer</div>
+            <div class="tab" data-tab="history">History</div>
+            <div class="tab" data-tab="settings">Settings</div>
+        </div>
+
+        <div id="generator" class="tab-content active">
+            <div class="grid">
+                <div class="card">
+                    <h2>Configuration</h2>
+                    <div class="control-group">
+                        <label for="length">Password Length: <span id="length-value">16</span></label>
+                        <input type="range" id="length" min="8" max="64" value="16">
+                        <div class="range-labels">
+                            <span>8</span>
+                            <span>64</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Character Sets</label>
+                        <div class="checkbox-grid">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="lowercase" checked>
+                                <label for="lowercase">Lowercase (a-z)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="uppercase" checked>
+                                <label for="uppercase">Uppercase (A-Z)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="digits" checked>
+                                <label for="digits">Digits (0-9)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="special" checked>
+                                <label for="special">Special (!@#...)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="similar" checked>
+                                <label for="similar">Allow similar (iIl1)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ambiguous" checked>
+                                <label for="ambiguous">Allow ambiguous ({ } [ ])</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="prefix">Prefix</label>
+                        <input type="text" id="prefix" placeholder="Optional prefix">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="postfix">Postfix</label>
+                        <input type="text" id="postfix" placeholder="Optional postfix">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="num-passwords">Number to generate</label>
+                        <input type="number" id="num-passwords" min="1" max="20" value="5">
+                    </div>
+
+                    <button id="generate-btn" class="btn btn-block">
+                        <i class="fas fa-bolt"></i> Generate Passwords
+                    </button>
+                </div>
+
+                <div class="card">
+                    <h2>Generated Passwords</h2>
+                    <textarea id="output" readonly></textarea>
+
+                    <div class="password-strength">
+                        <label>Password Strength</label>
+                        <div class="strength-meter">
+                            <div class="strength-bar" id="strength-bar"></div>
+                        </div>
+                        <div id="strength-text">Strength: Unknown</div>
+                        <div id="entropy">Entropy: 0 bits</div>
+                    </div>
+
+                    <button id="copy-btn" class="btn btn-block btn-secondary">
+                        <i class="far fa-copy"></i> Copy All
+                    </button>
+                    <button id="save-btn" class="btn btn-block">
+                        <i class="far fa-save"></i> Save to History
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="analyzer" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <h2>Password Analysis</h2>
+                    <textarea id="analyze-input" placeholder="Paste a password to analyze"></textarea>
+                    <button id="analyze-btn" class="btn btn-block">
+                        <i class="fas fa-search"></i> Analyze Password
+                    </button>
+                </div>
+
+                <div class="card">
+                    <h2>Analysis Results</h2>
+                    <div id="analysis-results" class="analysis-results">
+                        <p>No password analyzed yet. Enter a password in the analyzer to see detailed information.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="history" class="tab-content">
+            <div class="card">
+                <h2>Password History</h2>
+                <div class="password-history" id="password-history">
+                    <p>No passwords saved yet. Generate and save passwords to view them here.</p>
+                </div>
+                <button id="clear-history" class="btn btn-block btn-secondary">
+                    <i class="fas fa-trash"></i> Clear History
+                </button>
+            </div>
+        </div>
+
+        <div id="settings" class="tab-content">
+            <div class="card">
+                <h2>Settings</h2>
+                <div class="control-group">
+                    <label for="theme">Theme</label>
+                    <select id="theme" class="btn btn-block">
+                        <option value="dark">Dark</option>
+                        <option value="light">Light</option>
+                        <option value="oled">OLED Black</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="default-length">Default Password Length</label>
+                    <input type="range" id="default-length" min="8" max="64" value="16">
+                    <div class="range-labels">
+                        <span>8</span>
+                        <span>64</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="auto-copy">Auto-copy on generate</label>
+                    <input type="checkbox" id="auto-copy">
+                </div>
+
+                <div class="control-group">
+                    <label for="auto-save">Auto-save to history</label>
+                    <input type="checkbox" id="auto-save">
+                </div>
+
+                <button id="export-settings" class="btn btn-block btn-secondary">
+                    <i class="fas fa-file-export"></i> Export Settings
+                </button>
+                <button id="import-settings" class="btn btn-block">
+                    <i class="fas fa-file-import"></i> Import Settings
+                </button>
+            </div>
+        </div>
     </div>
-    
+
     <script>
-        // Debug: Check if CSS loaded
-        setTimeout(() => {
-            const bodyColor = window.getComputedStyle(document.body).backgroundColor;
-            if (bodyColor === 'rgba(0, 0, 0, 0)' || bodyColor === 'white') {
-                document.getElementById('debug-message').style.display = 'block';
-                console.error("CSS not detected!");
-            }
-        }, 100);
 
-        // DOM Elements
+        const tabElements = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
         const lengthSlider = document.getElementById('length');
         const lengthValue = document.getElementById('length-value');
         const lowercaseCheck = document.getElementById('lowercase');
         const uppercaseCheck = document.getElementById('uppercase');
         const digitsCheck = document.getElementById('digits');
         const specialCheck = document.getElementById('special');
+        const similarCheck = document.getElementById('similar');
+        const ambiguousCheck = document.getElementById('ambiguous');
         const prefixInput = document.getElementById('prefix');
         const postfixInput = document.getElementById('postfix');
         const numPasswordsInput = document.getElementById('num-passwords');
         const generateBtn = document.getElementById('generate-btn');
         const copyBtn = document.getElementById('copy-btn');
+        const saveBtn = document.getElementById('save-btn');
         const outputArea = document.getElementById('output');
         const strengthBar = document.getElementById('strength-bar');
         const strengthText = document.getElementById('strength-text');
         const entropyText = document.getElementById('entropy');
-        
-        // Update length value display
+        const analyzeInput = document.getElementById('analyze-input');
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const analysisResults = document.getElementById('analysis-results');
+        const passwordHistory = document.getElementById('password-history');
+        const clearHistoryBtn = document.getElementById('clear-history');
+        const themeSelect = document.getElementById('theme');
+        const defaultLength = document.getElementById('default-length');
+        const autoCopyCheck = document.getElementById('auto-copy');
+        const autoSaveCheck = document.getElementById('auto-save');
+        const exportSettingsBtn = document.getElementById('export-settings');
+        const importSettingsBtn = document.getElementById('import-settings');
+
+        tabElements.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabElements.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
         lengthSlider.addEventListener('input', function() {
             lengthValue.textContent = this.value;
             updateStrengthBar();
         });
-        
-        // Update strength when options change
-        [lowercaseCheck, uppercaseCheck, digitsCheck, specialCheck].forEach(checkbox => {
+
+        [lowercaseCheck, uppercaseCheck, digitsCheck, specialCheck, similarCheck, ambiguousCheck].forEach(checkbox => {
             checkbox.addEventListener('change', updateStrengthBar);
         });
-        
-        // Generate passwords
+
         generateBtn.addEventListener('click', generatePasswords);
-        
-        // Copy passwords
+
         copyBtn.addEventListener('click', function() {
             if (outputArea.value) {
                 navigator.clipboard.writeText(outputArea.value)
-                    .then(() => alert('All passwords copied to clipboard! 📋'))
+                    .then(() => showTooltip(copyBtn, 'Copied to clipboard!'))
                     .catch(err => alert('Failed to copy: ' + err));
             } else {
-                alert('Generate passwords first!');
+                showTooltip(copyBtn, 'Generate passwords first!');
             }
         });
-        
-        // Calculate entropy
-        function calculateEntropy(length, charSetSize) {
-            if (charSetSize <= 0 || length <= 0) return 0;
-            return length * Math.log2(charSetSize);
-        }
-        
-        // Update strength bar
+
+        saveBtn.addEventListener('click', saveToHistory);
+
+        analyzeBtn.addEventListener('click', analyzePassword);
+
+        clearHistoryBtn.addEventListener('click', clearHistory);
+
+        themeSelect.addEventListener('change', changeTheme);
+
+        exportSettingsBtn.addEventListener('click', exportSettings);
+        importSettingsBtn.addEventListener('click', importSettings);
+
+        loadSettings();
+        loadHistory();
+        updateStrengthBar();
+
         function updateStrengthBar() {
             const length = parseInt(lengthSlider.value);
             let charSet = 0;
-            
-            // Character sets
+
             if (lowercaseCheck.checked) charSet += 26;
             if (uppercaseCheck.checked) charSet += 26;
             if (digitsCheck.checked) charSet += 10;
-            if (specialCheck.checked) charSet += 20;
-            
-            // Calculate entropy
-            const entropy = calculateEntropy(length, charSet);
+            if (specialCheck.checked) charSet += 32;
+            if (!similarCheck.checked) charSet -= 4;
+            if (!ambiguousCheck.checked) charSet -= 10;
+
+            const entropy = length * Math.log2(Math.max(1, charSet));
             entropyText.textContent = `Entropy: ${entropy.toFixed(1)} bits`;
-            
-            // Calculate strength percentage (0-100)
+
             const strengthPercent = Math.min(100, (entropy / 128) * 100);
             strengthBar.style.width = strengthPercent + '%';
-            
-            // Set strength text and color
+
             let strength, color;
             if (entropy < 40) {
                 strength = "Weak";
-                color = "var(--warning-color)";
+                color = "#ef4444"; 
             } else if (entropy < 70) {
                 strength = "Good";
-                color = "#ffeb3b";
+                color = "#f59e0b"; 
             } else if (entropy < 100) {
                 strength = "Strong";
-                color = "var(--success-color)";
+                color = "#10b981"; 
             } else {
                 strength = "Very Strong";
-                color = "var(--accent-color)";
+                color = "#3b82f6"; 
             }
-            
+
             strengthText.textContent = `Strength: ${strength}`;
             strengthBar.style.backgroundColor = color;
         }
-        
-        // Generate passwords
+
         function generatePasswords() {
             const length = parseInt(lengthSlider.value);
             const num = parseInt(numPasswordsInput.value);
             const prefix = prefixInput.value;
             const postfix = postfixInput.value;
-            
-            // Define character sets
-            const lowercase = lowercaseCheck.checked ? 'abcdefghijklmnopqrstuvwxyz' : '';
-            const uppercase = uppercaseCheck.checked ? 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' : '';
-            const digits = digitsCheck.checked ? '0123456789' : '';
-            const special = specialCheck.checked ? '!@#$%^&*()_-+=<>?/[]{}|' : '';
-            
-            // Combine character sets
+
+            let lowercase = lowercaseCheck.checked ? 'abcdefghijklmnopqrstuvwxyz' : '';
+            let uppercase = uppercaseCheck.checked ? 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' : '';
+            let digits = digitsCheck.checked ? '0123456789' : '';
+            let special = specialCheck.checked ? '!@#$%^&*()_-+=<>?/[]{}|' : '';
+
+            if (!similarCheck.checked) {
+                lowercase = lowercase.replace(/[il1]/g, '');
+                uppercase = uppercase.replace(/[IL]/g, '');
+                digits = digits.replace(/[01]/g, '');
+            }
+
+            if (!ambiguousCheck.checked) {
+                special = special.replace(/[{}[\]()\/\\'"`~,;:.<>]/g, '');
+            }
+
             const chars = lowercase + uppercase + digits + special;
-            
-            // Validate character set
+
             if (!chars) {
-                alert('No character set selected!');
+                showTooltip(generateBtn, 'No character set selected!');
                 return;
             }
-            
+
             const passwords = [];
             for (let i = 0; i < num; i++) {
-                // Calculate core length (without prefix/postfix)
+
                 const coreLength = Math.max(1, length - prefix.length - postfix.length);
-                
-                // Ensure at least one character from each selected set
+
                 let passwordParts = [];
                 if (lowercase) passwordParts.push(getRandomChar(lowercase));
                 if (uppercase) passwordParts.push(getRandomChar(uppercase));
                 if (digits) passwordParts.push(getRandomChar(digits));
                 if (special) passwordParts.push(getRandomChar(special));
-                
-                // Fill remaining length with random characters
+
                 const remainingLength = coreLength - passwordParts.length;
                 if (remainingLength > 0) {
                     for (let j = 0; j < remainingLength; j++) {
                         passwordParts.push(getRandomChar(chars));
                     }
                 }
-                
-                // Shuffle to mix the characters
+
                 passwordParts = shuffleArray(passwordParts);
-                
-                // Combine with prefix and postfix
+
                 passwords.push(prefix + passwordParts.join('') + postfix);
             }
-            
-            // Display passwords
+
             outputArea.value = passwords.join('\n');
-            
-            // Update strength bar with final calculation
+
+            updateStrengthBar();
+
+            if (autoCopyCheck.checked) {
+                navigator.clipboard.writeText(outputArea.value)
+                    .then(() => showTooltip(copyBtn, 'Auto-copied to clipboard!'))
+                    .catch(err => console.error('Failed to auto-copy:', err));
+            }
+
+            if (autoSaveCheck.checked) {
+                saveToHistory();
+            }
+        }
+
+        function analyzePassword() {
+            const password = analyzeInput.value.trim();
+            if (!password) {
+                analysisResults.innerHTML = '<p class="text-warning">Please enter a password to analyze</p>';
+                return;
+            }
+
+            const charSet = getCharacterSetSize(password);
+            const entropy = password.length * Math.log2(charSet);
+
+            const hasLower = /[a-z]/.test(password);
+            const hasUpper = /[A-Z]/.test(password);
+            const hasDigit = /\d/.test(password);
+            const hasSpecial = /[^a-zA-Z0-9]/.test(password);
+            const isCommon = checkCommonPassword(password);
+
+            let html = `
+                <div class="analysis-item">
+                    <span>Length:</span>
+                    <span class="badge ${password.length >= 12 ? 'badge-success' : password.length >= 8 ? 'badge-warning' : 'badge-danger'}">
+                        ${password.length} characters
+                    </span>
+                </div>
+                <div class="analysis-item">
+                    <span>Character variety:</span>
+                    <span class="badge ${charSet > 60 ? 'badge-success' : charSet > 30 ? 'badge-warning' : 'badge-danger'}">
+                        ${Math.round(charSet)} unique characters
+                    </span>
+                </div>
+                <div class="analysis-item">
+                    <span>Estimated entropy:</span>
+                    <span class="badge ${entropy > 80 ? 'badge-success' : entropy > 50 ? 'badge-warning' : 'badge-danger'}">
+                        ${entropy.toFixed(1)} bits
+                    </span>
+                </div>
+                <div class="analysis-item">
+                    <span>Contains lowercase:</span>
+                    <span class="badge ${hasLower ? 'badge-success' : 'badge-warning'}">
+                        ${hasLower ? 'Yes' : 'No'}
+                    </span>
+                </div>
+                <div class="analysis-item">
+                    <span>Contains uppercase:</span>
+                    <span class="badge ${hasUpper ? 'badge-success' : 'badge-warning'}">
+                        ${hasUpper ? 'Yes' : 'No'}
+                    </span>
+                </div>
+                <div class="analysis-item">
+                    <span>Contains digits:</span>
+                    <span class="badge ${hasDigit ? 'badge-success' : 'badge-warning'}">
+                        ${hasDigit ? 'Yes' : 'No'}
+                    </span>
+                </div>
+                <div class="analysis-item">
+                    <span>Contains special chars:</span>
+                    <span class="badge ${hasSpecial ? 'badge-success' : 'badge-warning'}">
+                        ${hasSpecial ? 'Yes' : 'No'}
+                    </span>
+                </div>
+                <div class="analysis-item">
+                    <span>Common password:</span>
+                    <span class="badge ${isCommon ? 'badge-danger' : 'badge-success'}">
+                        ${isCommon ? 'Yes (high risk)' : 'No'}
+                    </span>
+                </div>
+            `;
+
+            analysisResults.innerHTML = html;
+        }
+
+        function saveToHistory() {
+            const passwords = outputArea.value.trim();
+            if (!passwords) {
+                showTooltip(saveBtn, 'Generate passwords first!');
+                return;
+            }
+
+            const history = JSON.parse(localStorage.getItem('passwordHistory') || '[]');
+            const newEntries = passwords.split('\n').map(pwd => ({
+                password: pwd,
+                timestamp: new Date().toISOString(),
+                strength: strengthText.textContent.replace('Strength: ', ''),
+                entropy: entropyText.textContent.replace('Entropy: ', '')
+            }));
+
+            const updatedHistory = [...history, ...newEntries].slice(-50);
+            localStorage.setItem('passwordHistory', JSON.stringify(updatedHistory));
+            loadHistory();
+
+            showTooltip(saveBtn, 'Saved to history!');
+        }
+
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem('passwordHistory') || '[]');
+
+            if (history.length === 0) {
+                passwordHistory.innerHTML = '<p>No passwords saved yet. Generate and save passwords to view them here.</p>';
+                return;
+            }
+
+            let html = '';
+            history.forEach((entry, index) => {
+                html += `
+                    <div class="history-item">
+                        <div class="password">${entry.password}</div>
+                        <div class="actions">
+                            <button class="btn btn-secondary copy-history" data-index="${index}">
+                                <i class="far fa-copy"></i>
+                            </button>
+                            <button class="btn btn-secondary delete-history" data-index="${index}">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            passwordHistory.innerHTML = html;
+
+            document.querySelectorAll('.copy-history').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = this.dataset.index;
+                    const history = JSON.parse(localStorage.getItem('passwordHistory'));
+                    navigator.clipboard.writeText(history[index].password)
+                        .then(() => showTooltip(btn, 'Copied to clipboard!'))
+                        .catch(err => console.error('Failed to copy:', err));
+                });
+            });
+
+            document.querySelectorAll('.delete-history').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = this.dataset.index;
+                    const history = JSON.parse(localStorage.getItem('passwordHistory'));
+                    history.splice(index, 1);
+                    localStorage.setItem('passwordHistory', JSON.stringify(history));
+                    loadHistory();
+                });
+            });
+        }
+
+        function clearHistory() {
+            localStorage.removeItem('passwordHistory');
+            loadHistory();
+            showTooltip(clearHistoryBtn, 'History cleared!');
+        }
+
+        function changeTheme() {
+
+            showTooltip(themeSelect, 'Theme changed!');
+        }
+
+        function exportSettings() {
+            const settings = {
+                length: lengthSlider.value,
+                lowercase: lowercaseCheck.checked,
+                uppercase: uppercaseCheck.checked,
+                digits: digitsCheck.checked,
+                special: specialCheck.checked,
+                similar: similarCheck.checked,
+                ambiguous: ambiguousCheck.checked,
+                prefix: prefixInput.value,
+                postfix: postfixInput.value,
+                numPasswords: numPasswordsInput.value,
+                autoCopy: autoCopyCheck.checked,
+                autoSave: autoSaveCheck.checked,
+                theme: themeSelect.value
+            };
+
+            const data = JSON.stringify(settings, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'password-generator-settings.json';
+            a.click();
+
+            URL.revokeObjectURL(url);
+            showTooltip(exportSettingsBtn, 'Settings exported!');
+        }
+
+        function importSettings() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+
+                reader.onload = event => {
+                    try {
+                        const settings = JSON.parse(event.target.result);
+
+                        lengthSlider.value = settings.length;
+                        lengthValue.textContent = settings.length;
+                        lowercaseCheck.checked = settings.lowercase;
+                        uppercaseCheck.checked = settings.uppercase;
+                        digitsCheck.checked = settings.digits;
+                        specialCheck.checked = settings.special;
+                        similarCheck.checked = settings.similar;
+                        ambiguousCheck.checked = settings.ambiguous;
+                        prefixInput.value = settings.prefix;
+                        postfixInput.value = settings.postfix;
+                        numPasswordsInput.value = settings.numPasswords;
+                        autoCopyCheck.checked = settings.autoCopy;
+                        autoSaveCheck.checked = settings.autoSave;
+                        themeSelect.value = settings.theme;
+
+                        updateStrengthBar();
+                        showTooltip(importSettingsBtn, 'Settings imported!');
+                    } catch (err) {
+                        showTooltip(importSettingsBtn, 'Invalid settings file!');
+                        console.error('Error importing settings:', err);
+                    }
+                };
+
+                reader.readAsText(file);
+            };
+
+            input.click();
+        }
+
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('generatorSettings')) || {};
+
+            if (settings.length) lengthSlider.value = settings.length;
+            if (settings.lowercase !== undefined) lowercaseCheck.checked = settings.lowercase;
+            if (settings.uppercase !== undefined) uppercaseCheck.checked = settings.uppercase;
+            if (settings.digits !== undefined) digitsCheck.checked = settings.digits;
+            if (settings.special !== undefined) specialCheck.checked = settings.special;
+            if (settings.similar !== undefined) similarCheck.checked = settings.similar;
+            if (settings.ambiguous !== undefined) ambiguousCheck.checked = settings.ambiguous;
+            if (settings.prefix !== undefined) prefixInput.value = settings.prefix;
+            if (settings.postfix !== undefined) postfixInput.value = settings.postfix;
+            if (settings.numPasswords !== undefined) numPasswordsInput.value = settings.numPasswords;
+            if (settings.autoCopy !== undefined) autoCopyCheck.checked = settings.autoCopy;
+            if (settings.autoSave !== undefined) autoSaveCheck.checked = settings.autoSave;
+            if (settings.theme) themeSelect.value = settings.theme;
+
+            lengthValue.textContent = lengthSlider.value;
             updateStrengthBar();
         }
-        
-        // Helper functions
+
+        function saveSettings() {
+            const settings = {
+                length: lengthSlider.value,
+                lowercase: lowercaseCheck.checked,
+                uppercase: uppercaseCheck.checked,
+                digits: digitsCheck.checked,
+                special: specialCheck.checked,
+                similar: similarCheck.checked,
+                ambiguous: ambiguousCheck.checked,
+                prefix: prefixInput.value,
+                postfix: postfixInput.value,
+                numPasswords: numPasswordsInput.value,
+                autoCopy: autoCopyCheck.checked,
+                autoSave: autoSaveCheck.checked,
+                theme: themeSelect.value
+            };
+
+            localStorage.setItem('generatorSettings', JSON.stringify(settings));
+        }
+
         function getRandomChar(str) {
             return str[Math.floor(Math.random() * str.length)];
         }
-        
+
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -241,9 +961,52 @@
             }
             return array;
         }
-        
-        // Initialize strength bar
-        updateStrengthBar();
+
+        function getCharacterSetSize(password) {
+            let size = 0;
+            if (/[a-z]/.test(password)) size += 26;
+            if (/[A-Z]/.test(password)) size += 26;
+            if (/\d/.test(password)) size += 10;
+            if (/[^a-zA-Z0-9]/.test(password)) size += 32;
+            return size;
+        }
+
+        function checkCommonPassword(password) {
+            const common = [
+                'password', '123456', '12345678', '1234', 'qwerty', 
+                'letmein', 'admin', 'welcome', 'monkey', 'sunshine'
+            ];
+            return common.includes(password.toLowerCase());
+        }
+
+        function showTooltip(element, message) {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip-message';
+            tooltip.textContent = message;
+            tooltip.style.position = 'absolute';
+            tooltip.style.background = 'var(--card-bg)';
+            tooltip.style.color = 'var(--text-primary)';
+            tooltip.style.padding = '0.5rem 1rem';
+            tooltip.style.borderRadius = '4px';
+            tooltip.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+            tooltip.style.zIndex = '1000';
+            tooltip.style.whiteSpace = 'nowrap';
+
+            const rect = element.getBoundingClientRect();
+            tooltip.style.top = `${rect.top - 40}px`;
+            tooltip.style.left = `${rect.left + rect.width/2}px`;
+            tooltip.style.transform = 'translateX(-50%)';
+
+            document.body.appendChild(tooltip);
+
+            setTimeout(() => {
+                tooltip.style.opacity = '0';
+                tooltip.style.transition = 'opacity 0.3s';
+                setTimeout(() => tooltip.remove(), 300);
+            }, 2000);
+        }
+
+        window.addEventListener('beforeunload', saveSettings);
     </script>
 </body>
 </html>
