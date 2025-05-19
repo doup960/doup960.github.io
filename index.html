@@ -972,8 +972,35 @@
 
         function checkCommonPassword(password) {
             const common = [
-                'password', '123456', '12345678', '1234', 'qwerty', 
-                'letmein', 'admin', 'welcome', 'monkey', 'sunshine'
+                '123456', 'password', '123456789', '12345678', '12345', '111111', '1234567', 'sunshine', 'qwerty', 'iloveyou',
+                'princess', 'admin', 'welcome', '666666', 'abc123', 'football', '123123', 'monkey', '654321', '!@#$%^&*',
+                'charlie', 'aa123456', 'donald', 'password1', 'qwerty123', 'zxcvbnm', '1q2w3e4r', 'dragon', 'master', 'hello',
+                'freedom', 'whatever', 'qazwsx', 'trustno1', 'letmein', '123qwe', 'baseball', 'superman', 'michael', '696969',
+                'batman', 'jordan', 'harley', 'buster', 'thomas', 'tigger', 'robert', 'soccer', 'killer', 'hockey', 'george',
+                'andrew', 'joshua', 'cheese', 'pepper', 'internet', 'summer', 'ginger', 'cookie', 'shadow', 'pepper', 'silver',
+                'merlin', 'michelle', 'corvette', 'bigdog', 'gandalf', 'asdfgh', 'starwars', 'matrix', 'computer', 'blahblah',
+                'pokemon', 'naruto', 'spiderman', 'batman123', 'passw0rd', 'hello123', 'monkey123', 'mustang', 'lovely',
+                'secret', 'flower', 'ashley', 'bailey', 'qwertyuiop', 'daniel', 'maggie', 'buster', 'william', 'snoopy',
+                'carlos', 'gabriel', 'madison', 'nicole', 'jesus', 'hannah', 'samantha', 'andrea', 'london', 'paris', '777777',
+                'welcome1', 'password123', 'abc123456', 'monkey1', '1qaz2wsx', '123abc', '987654321', 'qwe123', 'qweasd',
+                'qweqwe', '11111111', '121212', '000000', '1234567890', 'asdf1234', 'pass1234', 'root', 'admin123', '123321',
+                '112233', '102030', '232323', '445566', 'password!', 'qwerty1', '1q2w3e', 'zaq1zaq1', '1g2w3e4r', '321321',
+                '456789', 'password2', 'asdfasdf', 'a1b2c3', 'pass123', 'loveme', '123', '6969', 'q1w2e3r4', '1a2b3c',
+                'asdf', 'super', '1password', 'samsung', 'playboy', 'ninja', 'trustme', 'killer123', 'batman1', 'pokemon123',
+                '123456a', 'abc12345', 'myspace1', 'firebird', 'password4', 'test123', 'asdfg', 'aaaaaa', 'zxcvbn', 'qwe',
+                'asdfghjkl', 'football1', 'hottie', 'jennifer', 'asdf123', 'internet1', 'lol123', 'google', 'michelle1',
+                'happy', 'lucky', '7777777', 'ginger1', 'love123', 'jordan23', 'nintendo', 'facebook', 'asdfg123', 'hunter',
+                'boomer', 'cameron', 'secret1', 'newyork', 'mypass', 'mypass123', 'mysecret', 'mypassword', 'mylife', 'apple',
+                'windows', 'ubuntu', 'linux', 'iloveyou1', 'sexy', 'trust', 'bank', 'money', 'rich', 'poor', 'jobless',
+                'working', 'default', 'changeme', 'qweqwe123', 'test', 'test1234', 'root123', 'admin1', '123admin', 'admin1234',
+                'iloveme', 'adminadmin', '1admin', '1admin1', 'me123', 'me12345', '1111', '2222', '3333', '4444', '5555',
+                '6666', '7777', '8888', '9999', '0000', '131313', '121314', '789456', '159753', '852456', '456123', '741852',
+                '147258', '369258', '258369', '963852', 'adminadmin123', 'administrator', 'system', 'guest', 'superuser',
+                'superadmin', 'q1w2e3', 'q1w2e3r4t5', '123qweasd', 'asdfqwer', 'passw0rd1', 'passw0rd!', 'pass123!', 'myspace',
+                'ilovepasswords', 'passion', 'football123', 'letmein123', '123456789a', 'access', 'access123', 'qazwsxedc',
+                'zaq12wsx', 'zxcvbn123', '1a2b3c4d', 'abcd1234', 'abcde12345', 'abcdefg', 'securepassword', 'secur3', 'strongpass',
+                'strongpassword', 'qwertyui', 'qwerty12', 'passcode', 'passphrase', 'mypassw0rd', 'supersecret', 'ultrasecret',
+                'topsecret', 'notsecure', 'reallysecure', 'supersecure', 'adminadmin1', 'letmeinplease', 'qwerty123456', '00000000'
             ];
             return common.includes(password.toLowerCase());
         }
