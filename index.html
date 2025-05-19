@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="icon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <title>Password Generator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -20,14 +23,14 @@
             --danger: #ef4444;
             --border: #334155;
         }
-
+    
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Work Sans', system-ui, -apple-system, sans-serif;
         }
-
+    
         body {
             background: var(--bg-darker);
             color: var(--text-primary);
@@ -40,12 +43,12 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-
+    
         header {
             text-align: center;
             margin-bottom: 2rem;
         }
-
+    
         h1 {
             font-size: 2.5rem;
             background: linear-gradient(90deg, var(--accent), #8b5cf6);
@@ -54,7 +57,7 @@
             color: transparent;
             margin-bottom: 0.5rem;
         }
-
+    
         .subtitle {
             color: var(--text-secondary);
             font-size: 1.1rem;
@@ -327,7 +330,7 @@
             .grid {
                 grid-template-columns: 1fr;
             }
-
+    
             .tabs {
                 overflow-x: auto;
                 padding-bottom: 0;
