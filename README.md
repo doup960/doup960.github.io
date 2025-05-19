@@ -13,16 +13,25 @@ A secure, client-side password generator with entropy calculation, safety tips, 
 - **Auto-save to password history** (optional)  
 - **Export/Import settings** for convenience  
 - **Three themes**: Dark, Light *(WIP)*, and OLED Black *(WIP)*  
-- **Dedicated "Safety" tab** with tips for creating strong passwords  
+- **Expanded Safety Section** with 7 expert password creation tips
 - **100% client-side** — No data ever leaves your browser  
 
+## 🔐 Enhanced Safety Guidance
+The **Safety tab** now includes **7 essential** password best practices:
+- Character diversity requirements
+- Avoiding personal information
+- Password manager recommendations
+- Two-factor authentication setup
+- Password rotation strategies
+- Phishing awareness
+- Passphrase implementation
 
 ## ✅ How to Use  
-1. Go to the **Settings** tab to adjust your default length, theme, and behavior  
-2. Visit the **Generator** tab and click **Generate**  
-3. Analyze strength in the **Analyzer** tab if needed  
-4. Check out the **Safety** tab for expert tips  
-5. Export your configuration for future use  
+- Go to the **Settings** tab to adjust your default length, theme, and behavior
+- Visit the **Generator** tab and click **Generate**
+- Analyze strength in the **Analyzer** tab if needed  
+- Review all security best practices in the **Safety** tab
+- Export your configuration for future use if necessary
 
 ## 🌐 Live Demo  
 Hosted on GitHub Pages:  
