@@ -12,9 +12,10 @@ A secure, client-side password generator with entropy calculation, safety tips, 
 - **Auto-copy to clipboard** after generation (optional)  
 - **Auto-save to password history** (optional)  
 - **Export/Import settings** for convenience  
-- **Three themes**: Dark, Light, and OLED Black  
+- **Three themes**: Dark, Light *(WIP)*, and OLED Black *(WIP)*  
 - **Dedicated "Safety" tab** with tips for creating strong passwords  
 - **100% client-side** — No data ever leaves your browser  
+
 
 ## ✅ How to Use  
 1. Go to the **Settings** tab to adjust your default length, theme, and behavior  
