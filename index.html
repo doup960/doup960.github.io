@@ -441,12 +441,63 @@
                         <i class="fas fa-search"></i> Analyze Password
                     </button>
                 </div>
-
+        
                 <div class="card">
                     <h2>Analysis Results</h2>
                     <div id="analysis-results" class="analysis-results">
                         <p>No password analyzed yet. Enter a password in the analyzer to see detailed information.</p>
                     </div>
+                </div>
+        
+                <div class="card">
+                    <h2>Advanced Analysis</h2>
+                    <div class="control-group">
+                        <label for="brute-force-speed">Brute Force Speed (per second)</label>
+                        <input type="number" id="brute-force-speed" min="1" max="1000000" value="1000">
+                    </div>
+        
+                    <div class="control-group">
+                        <label for="dictionary-size">Dictionary Size (words)</label>
+                        <input type="number" id="dictionary-size" min="1" max="1000000" value="10000">
+                    </div>
+        
+                    <div class="control-group">
+                        <label for="rainbow-table-size">Rainbow Table Size (entries)</label>
+                        <input type="number" id="rainbow-table-size" min="1" max="1000000" value="10000">
+                    </div>
+        
+                    <div class="control-group">
+                        <label for="estimated-guess-time">Estimated Guess Time (hours)</label>
+                        <input type="number" id="estimated-guess-time" min="1" max="1000000" value="1000">
+                    </div>
+        
+                    <div class="control-group">
+                        <label for="password-entropy">Password Entropy (bits)</label>
+                        <input type="number" id="password-entropy" min="1" max="1000000" value="128">
+                    </div>
+        
+                    <div class="control-group">
+                        <label for="password-complexity">Password Complexity Score</label>
+                        <input type="number" id="password-complexity" min="1" max="100" value="50">
+                    </div>
+        
+                    <div class="control-group">
+                        <label for="password-age">Password Age (days)</label>
+                        <input type="number" id="password-age" min="1" max="365" value="30">
+                    </div>
+        
+                    <div class="control-group">
+                        <label for="password-risk">Password Risk Level</label>
+                        <select id="password-risk" class="btn btn-block">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+        
+                    <button id="advanced-analyze-btn" class="btn btn-block">
+                        <i class="fas fa-search"></i> Advanced Analyze Password
+                    </button>
                 </div>
             </div>
         </div>
@@ -1007,6 +1058,126 @@
         }
 
         window.addEventListener('beforeunload', saveSettings);
+
+        const bruteForceSpeedInput = document.getElementById('brute-force-speed');
+    const dictionarySizeInput = document.getElementById('dictionary-size');
+    const rainbowTableSizeInput = document.getElementById('rainbow-table-size');
+    const estimatedGuessTimeInput = document.getElementById('estimated-guess-time');
+    const passwordEntropyInput = document.getElementById('password-entropy');
+    const passwordComplexityInput = document.getElementById('password-complexity');
+    const passwordAgeInput = document.getElementById('password-age');
+    const passwordRiskSelect = document.getElementById('password-risk');
+    const advancedAnalyzeBtn = document.getElementById('advanced-analyze-btn');
+
+    advancedAnalyzeBtn.addEventListener('click', advancedAnalyzePassword);
+
+    function advancedAnalyzePassword() {
+        const password = analyzeInput.value.trim();
+        if (!password) {
+            analysisResults.innerHTML = '<p class="text-warning">Please enter a password to analyze</p>';
+            return;
+        }
+
+        const charSet = getCharacterSetSize(password);
+        const entropy = password.length * Math.log2(Math.max(1, charSet));
+        const bruteForceSpeed = parseInt(bruteForceSpeedInput.value);
+        const dictionarySize = parseInt(dictionarySizeInput.value);
+        const rainbowTableSize = parseInt(rainbowTableSizeInput.value);
+        const estimatedGuessTime = parseInt(estimatedGuessTimeInput.value);
+        const passwordEntropy = parseInt(passwordEntropyInput.value);
+        const passwordComplexity = parseInt(passwordComplexityInput.value);
+        const passwordAge = parseInt(passwordAgeInput.value);
+        const passwordRisk = passwordRiskSelect.value;
+
+        const hasLower = /[a-z]/.test(password);
+        const hasUpper = /[A-Z]/.test(password);
+        const hasDigit = /\d/.test(password);
+        const hasSpecial = /[^a-zA-Z0-9]/.test(password);
+        const isCommon = checkCommonPassword(password);
+
+        let html = `
+            <div class="analysis-item">
+                <span>Length:</span>
+                <span class="badge ${password.length >= 12 ? 'badge-success' : password.length >= 8 ? 'badge-warning' : 'badge-danger'}">
+                    ${password.length} characters
+                </span>
+            </div>
+            <div class="analysis-item">
+                <span>Character variety:</span>
+                <span class="badge ${charSet > 60 ? 'badge-success' : charSet > 30 ? 'badge-warning' : 'badge-danger'}">
+                    ${Math.round(charSet)} unique characters
+                </span>
+            </div>
+            <div class="analysis-item">
+                <span>Estimated entropy:</span>
+                <span class="badge ${entropy > 80 ? 'badge-success' : entropy > 50 ? 'badge-warning' : 'badge-danger'}">
+                    ${entropy.toFixed(1)} bits
+                </span>
+            </div>
+            <div class="analysis-item">
+                <span>Contains lowercase:</span>
+                <span class="badge ${hasLower ? 'badge-success' : 'badge-warning'}">
+                    ${hasLower ? 'Yes' : 'No'}
+                </span>
+            </div>
+            <div class="analysis-item">
+                <span>Contains uppercase:</span>
+                <span class="badge ${hasUpper ? 'badge-success' : 'badge-warning'}">
+                    ${hasUpper ? 'Yes' : 'No'}
+                </span>
+            </div>
+            <div class="analysis-item">
+                <span>Contains digits:</span>
+                <span class="badge ${hasDigit ? 'badge-success' : 'badge-warning'}">
+                    ${hasDigit ? 'Yes' : 'No'}
+                </span>
+            </div>
+            <div class="analysis-item">
+                <span>Contains special chars:</span>
+                <span class="badge ${hasSpecial ? 'badge-success' : 'badge-warning'}">
+                    ${hasSpecial ? 'Yes' : 'No'}
+                </span>
+            </div>
+            <div class="analysis-item">
+                <span>Common password:</span>
+                <span class="badge ${isCommon ? 'badge-danger' : 'badge-success'}">
+                    ${isCommon ? 'Yes (high risk)' : 'No'}
+                </span>
+            </div>
+            <div class="analysis-item">
+                <span>Estimated guess time (brute force):</span>
+                <span class="badge ${bruteForceSpeed > 1000000 ? 'badge-danger' : bruteForceSpeed > 100000 ? 'badge-warning' : 'badge-success'}">
+                    ${Math.round(estimatedGuessTime / bruteForceSpeed)} hours
+                </span>
+            </div>
+            <div class="analysis-item">
+                <span>Estimated guess time (dictionary attack):</span>
+                <span class="badge ${dictionarySize > 1000000 ? 'badge-danger' : dictionarySize > 100000 ? 'badge-warning' : 'badge-success'}">
+                    ${Math.round(estimatedGuessTime / dictionarySize)} hours
+                </span>
+            </div>
+            <div class="analysis-item">
+                <span>Password complexity score:</span>
+                <span class="badge ${passwordComplexity > 50 ? 'badge-success' : passwordComplexity > 20 ? 'badge-warning' : 'badge-danger'}">
+                    ${passwordComplexity}%
+                </span>
+            </div>
+            <div class="analysis-item">
+                <span>Password age:</span>
+                <span class="badge ${passwordAge > 30 ? 'badge-success' : passwordAge > 15 ? 'badge-warning' : 'badge-danger'}">
+                    ${passwordAge} days
+                </span>
+            </div>
+            <div class="analysis-item">
+                <span>Password risk level:</span>
+                <span class="badge ${passwordRisk === 'low' ? 'badge-success' : passwordRisk === 'medium' ? 'badge-warning' : 'badge-danger'}">
+                    ${passwordRisk}
+                </span>
+            </div>
+        `;
+
+        analysisResults.innerHTML = html;
+    }
     </script>
 </body>
 </html>
