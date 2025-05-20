@@ -351,14 +351,22 @@
         }
 
         @media (max-width: 768px) {
-          .safety-textarea {
-            font-size: 18px !important;
-            padding: 12px !important;
-          }
-          
-          textarea:not(.safety-textarea) {
-            font-size: 24px !important; /* Slightly smaller than 30px for mobile */
-          }
+            .safety-textarea {
+                font-size: 18px !important;
+                padding: 12px !important;
+            }
+              
+            textarea:not(.safety-textarea) {
+                font-size: 24px !important;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+    
+            .tabs {
+                overflow-x: auto;
+                padding-bottom: 0;
+            }
         }
     </style>
 </head>
