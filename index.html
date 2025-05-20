@@ -470,6 +470,9 @@
                 <button id="clear-history" class="btn btn-block btn-secondary">
                     <i class="fas fa-trash"></i> Clear History
                 </button>
+                <button id="export-history" class="btn btn-block btn-primary">
+                    <i class="fas fa-download"></i> Export History
+                </button>
             </div>
         </div>
 
@@ -1110,6 +1113,30 @@ Passphrases combine multiple random words for better security. They're longer bu
                 setTimeout(() => tooltip.remove(), 300);
             }, 2000);
         }
+
+       document.getElementById('export-history').addEventListener('click', function () {
+            const history = JSON.parse(localStorage.getItem('passwordHistory') || '[]');
+           
+            if (!history.length) {
+                alert('No passwords to export!');
+                return;
+            }
+        
+            const exportText = history.map(entry => entry.password).join('\n');
+        
+            const blob = new Blob([exportText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+        
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'password_history.txt';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        });
+
+
 
         window.addEventListener('beforeunload', saveSettings);
     </script>
