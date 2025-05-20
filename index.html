@@ -203,20 +203,38 @@
             background: var(--bg-dark);
         }
 
-        textarea {
-            width: 100%;
-            min-height: 150px;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem;
-            overflow: hidden;
-            font-family: 'Manrope', monospace;
-            font-size: 18px;
-            resize: none;
-            margin-bottom: 1rem;
-            line-height: 1.6;
+        .safety-textarea {
+          width: 100%;
+          min-height: 150px;
+          background: var(--bg-dark);
+          color: var(--text-primary);
+          border: 1px solid var(--border);
+          border-radius: 8px;
+          padding: 1rem;
+          font-family: 'Manrope', monospace;
+          font-size: 26px; /* Your requested size */
+          resize: none;
+          margin-bottom: 1rem;
+          line-height: 1.6;
+          box-sizing: border-box;
+          word-wrap: break-word;
+          white-space: pre-wrap;
+        }
+        
+        textarea:not(.safety-textarea) {
+          width: 100%;
+          min-height: 150px;
+          background: var(--bg-dark);
+          color: var(--text-primary);
+          border: 1px solid var(--border);
+          border-radius: 8px;
+          padding: 1rem;
+          font-family: 'Manrope', monospace;
+          font-size: 30px;
+          resize: none;
+          margin-bottom: 1rem;
+          line-height: 1.6;
+          box-sizing: border-box;
         }
 
         .password-strength {
@@ -333,14 +351,14 @@
         }
 
         @media (max-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
-            .tabs {
-                overflow-x: auto;
-                padding-bottom: 0;
-            }
+          .safety-textarea {
+            font-size: 18px !important;
+            padding: 12px !important;
+          }
+          
+          textarea:not(.safety-textarea) {
+            font-size: 24px !important; /* Slightly smaller than 30px for mobile */
+          }
         }
     </style>
 </head>
@@ -527,49 +545,49 @@
 
             <div class="control-group">
                 <label for="tip1"><strong>Password Tip #1</strong></label>
-                <textarea id="tip1" style="width: 100%; font-size: 30px;" rows="5" readonly>
+                <textarea id="tip1" class="safety-textarea" rows="5" readonly>
 Strong passwords mix uppercase, lowercase, numbers, and symbols. Avoid simple patterns like "12345" or "password". Aim for at least 12 characters in length. The more random your combination, the harder it is to crack. Special characters like @#$% can significantly increase security.
                 </textarea>
             </div>
 
             <div class="control-group">
                 <label for="tip2"><strong>Password Tip #2</strong></label>
-                <textarea id="tip2" style="width: 100%; font-size: 30px;" rows="5" readonly>
+                <textarea id="tip2" class="safety-textarea" rows="5" readonly>
 Never use personal information like birthdays or pet names. Hackers can easily find these details online. Avoid dictionary words and common phrases. Instead, create random combinations unrelated to your life. Consider using the first letters of a memorable sentence.
                 </textarea>
             </div>
 
             <div class="control-group">
                 <label for="tip3"><strong>Password Tip #3</strong></label>
-                <textarea id="tip3" style="width: 100%; font-size: 30px;" rows="5" readonly>
+                <textarea id="tip3" class="safety-textarea" rows="5" readonly>
 Reusing passwords puts all accounts at risk. Data breaches often expose passwords used on multiple sites. Password managers generate and store unique passwords securely. They encrypt your data and only require remembering one master password. Popular options include LastPass, Bitwarden, and 1Password.
                 </textarea>
             </div>
 
             <div class="control-group">
                 <label for="tip4"><strong>Password Tip #4</strong></label>
-                <textarea id="tip4" style="width: 100%; font-size: 30px;" rows="5" readonly>
+                <textarea id="tip4" class="safety-textarea" rows="5" readonly>
 Two-factor authentication (2FA) adds crucial extra protection. Even with your password, hackers need your phone or biometrics. Use authenticator apps instead of SMS when possible. Enable 2FA especially for email and financial accounts. Many services offer this in their security settings.
                 </textarea>
             </div>
 
             <div class="control-group">
                 <label for="tip5"><strong>Password Tip #5</strong></label>
-                <textarea id="tip5" style="width: 100%; font-size: 30px;" rows="5" readonly>
+                <textarea id="tip5" class="safety-textarea" rows="5" readonly>
 Update important passwords every 3-6 months. Focus first on banking, email, and work accounts. Don't just increment numbers (Password1 to Password2). Create completely new passwords each time. Password managers can track when you last changed each password.
                 </textarea>
             </div>
 
             <div class="control-group">
                 <label for="tip6"><strong>Password Tip #6</strong></label>
-                <textarea id="tip6" style="width: 100%; font-size: 30px;" rows="5" readonly>
+                <textarea id="tip6" class="safety-textarea" rows="5" readonly>
 Phishing scams try to trick you into revealing passwords. Check sender addresses carefully in suspicious emails. Never click "password reset" links you didn't request. Legitimate companies won't ask for passwords via email. When in doubt, visit websites directly instead of clicking links.
                 </textarea>
             </div>
 
             <div class="control-group">
                 <label for="tip7"><strong>Password Tip #7</strong></label>
-                <textarea id="tip7" style="width: 100%; font-size: 30px;" rows="5" readonly>
+                <textarea id="tip7" class="safety-textarea" rows="5" readonly>
 Passphrases combine multiple random words for better security. They're longer but easier to remember than complex characters. Choose 4-6 unrelated words (correct-horse-battery-staple). Add numbers/symbols between words for extra strength. Ensure it's at least 15 characters total.
                 </textarea>
             </div>
