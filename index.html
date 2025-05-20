@@ -26,14 +26,14 @@
             --danger: #ef4444;
             --border: #334155;
         }
-    
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Work Sans', system-ui, -apple-system, sans-serif;
         }
-    
+
         body {
             background: var(--bg-darker);
             color: var(--text-primary);
@@ -46,12 +46,12 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-    
+
         header {
             text-align: center;
             margin-bottom: 2rem;
         }
-    
+
         h1 {
             font-size: 2.5rem;
             background: linear-gradient(90deg, var(--accent), #8b5cf6);
@@ -60,7 +60,7 @@
             color: transparent;
             margin-bottom: 0.5rem;
         }
-    
+
         .subtitle {
             color: var(--text-secondary);
             font-size: 1.1rem;
@@ -219,7 +219,6 @@
             line-height: 1.6;
         }
 
-
         .password-strength {
             margin-top: 1rem;
         }
@@ -334,7 +333,7 @@
             .grid {
                 grid-template-columns: 1fr;
             }
-    
+
             .tabs {
                 overflow-x: auto;
                 padding-bottom: 0;
@@ -487,7 +486,6 @@
                     <small class="text-warning">Note: Light and OLED Black themes are currently a work in progress.</small>
                 </div>
 
-
                 <div class="control-group">
                     <label for="default-length">Default Password Length</label>
                     <input type="range" id="default-length" min="8" max="64" value="16">
@@ -520,21 +518,21 @@
     <div id="safety" class="tab-content">
         <div class="card">
             <h2>Safety</h2>
-    
+
             <div class="control-group">
                 <label for="tip1"><strong>Password Tip #1</strong></label>
                 <textarea id="tip1" style="width: 100%; font-size: 30px;" rows="5" readonly>
 Strong passwords mix uppercase, lowercase, numbers, and symbols. Avoid simple patterns like "12345" or "password". Aim for at least 12 characters in length. The more random your combination, the harder it is to crack. Special characters like @#$% can significantly increase security.
                 </textarea>
             </div>
-    
+
             <div class="control-group">
                 <label for="tip2"><strong>Password Tip #2</strong></label>
                 <textarea id="tip2" style="width: 100%; font-size: 30px;" rows="5" readonly>
 Never use personal information like birthdays or pet names. Hackers can easily find these details online. Avoid dictionary words and common phrases. Instead, create random combinations unrelated to your life. Consider using the first letters of a memorable sentence.
                 </textarea>
             </div>
-    
+
             <div class="control-group">
                 <label for="tip3"><strong>Password Tip #3</strong></label>
                 <textarea id="tip3" style="width: 100%; font-size: 30px;" rows="5" readonly>
@@ -571,7 +569,6 @@ Passphrases combine multiple random words for better security. They're longer bu
             </div>
         </div>
     </div>
-
 
     <script>
 
@@ -655,38 +652,54 @@ Passphrases combine multiple random words for better security. They're longer bu
 
         function updateStrengthBar() {
             const length = parseInt(lengthSlider.value);
+
             let charSet = 0;
+            const similarChars = "il1Lo0O";
+            const ambiguousChars = "{}[]()/\\'\"`~,;:.<>";
 
             if (lowercaseCheck.checked) charSet += 26;
             if (uppercaseCheck.checked) charSet += 26;
             if (digitsCheck.checked) charSet += 10;
             if (specialCheck.checked) charSet += 32;
-            if (!similarCheck.checked) charSet -= 4;
-            if (!ambiguousCheck.checked) charSet -= 10;
 
-            const entropy = length * Math.log2(Math.max(1, charSet));
+            if (!similarCheck.checked) charSet -= countUnique(similarChars);
+            if (!ambiguousCheck.checked) charSet -= countUnique(ambiguousChars);
+
+            charSet = Math.max(1, charSet);
+
+            const entropy = length * Math.log2(charSet);
             entropyText.textContent = `Entropy: ${entropy.toFixed(1)} bits`;
 
             const strengthPercent = Math.min(100, (entropy / 128) * 100);
             strengthBar.style.width = strengthPercent + '%';
 
             let strength, color;
-            if (entropy < 40) {
+            if (entropy < 28) {
+                strength = "Very Weak";
+                color = "#dc2626"; 
+            } else if (entropy < 40) {
                 strength = "Weak";
-                color = "#ef4444"; 
-            } else if (entropy < 70) {
+                color = "#f97316"; 
+            } else if (entropy < 60) {
+                strength = "Fair";
+                color = "#eab308"; 
+            } else if (entropy < 80) {
                 strength = "Good";
-                color = "#f59e0b"; 
+                color = "#10b981"; 
             } else if (entropy < 100) {
                 strength = "Strong";
-                color = "#10b981"; 
+                color = "#3b82f6"; 
             } else {
                 strength = "Very Strong";
-                color = "#3b82f6"; 
+                color = "#8b5cf6"; 
             }
 
             strengthText.textContent = `Strength: ${strength}`;
             strengthBar.style.backgroundColor = color;
+        }
+
+        function countUnique(str) {
+            return new Set(str.split('')).size;
         }
 
         function generatePasswords() {
@@ -1035,7 +1048,6 @@ Passphrases combine multiple random words for better security. They're longer bu
             const uniqueChars = new Set(password.split(''));
             return uniqueChars.size;
         }
-
 
         function checkCommonPassword(password) {
             const common = [
