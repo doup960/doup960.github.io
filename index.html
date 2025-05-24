@@ -683,6 +683,31 @@ Passphrases combine multiple random words for better security. They're longer bu
         loadHistory();
         updateStrengthBar();
 
+        async function checkPasswordBreach(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest("SHA-1", data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
+        
+            const prefix = hashHex.slice(0, 5);
+            const suffix = hashHex.slice(5);
+        
+            const response = await fetch(`https://api.pwnedpasswords.com/range/${prefix}`);
+            const text = await response.text();
+            const lines = text.split("\n");
+        
+            for (const line of lines) {
+                const [lineSuffix, count] = line.split(":");
+                if (lineSuffix === suffix) {
+                    return parseInt(count);
+                }
+            }
+        
+            return 0; // Not found
+        }
+
+        
         function updateStrengthBar() {
             const length = parseInt(lengthSlider.value);
 
@@ -801,22 +826,24 @@ Passphrases combine multiple random words for better security. They're longer bu
             }
         }
 
-        function analyzePassword() {
+        async function analyzePassword() {
             const password = analyzeInput.value.trim();
             if (!password) {
                 analysisResults.innerHTML = '<p class="text-warning">Please enter a password to analyze</p>';
                 return;
             }
-
+        
             const charSet = getCharacterSetSize(password);
             const entropy = password.length * Math.log2(charSet);
-
+        
             const hasLower = /[a-z]/.test(password);
             const hasUpper = /[A-Z]/.test(password);
             const hasDigit = /\d/.test(password);
             const hasSpecial = /[^a-zA-Z0-9]/.test(password);
             const isCommon = checkCommonPassword(password);
-
+        
+            const breachCount = await checkPasswordBreach(password);
+        
             let html = `
                 <div class="analysis-item">
                     <span>Length:</span>
@@ -866,10 +893,17 @@ Passphrases combine multiple random words for better security. They're longer bu
                         ${isCommon ? 'Yes (high risk)' : 'No'}
                     </span>
                 </div>
+                <div class="analysis-item">
+                    <span>Known breach count:</span>
+                    <span class="badge ${breachCount > 0 ? 'badge-danger' : 'badge-success'}">
+                        ${breachCount > 0 ? breachCount + ' times' : 'Not found'}
+                    </span>
+                </div>
             `;
-
+        
             analysisResults.innerHTML = html;
         }
+
 
         function saveToHistory() {
             if (isLoadingHistory) return;
