@@ -575,7 +575,7 @@ Reusing passwords puts all accounts at risk. Data breaches often expose password
             <div class="control-group">
                 <label for="tip4"><strong>Password Tip #4</strong></label>
                 <textarea id="tip4" class="safety-textarea" rows="5" readonly>
-Two-factor authentication (2FA) adds crucial extra protection. Even with your password, hackers need your phone or biometrics. Use authenticator apps instead of SMS when possible. Enable 2FA especially for email and financial accounts. Many services offer this in their security settings.
+Two-factor authentication (2FA) adds crucial extra protection. Even with your password, hackers would need your phone or biometrics. Use authenticator apps instead of SMS when possible. Enable 2FA especially for email and financial accounts. Many services offer this in their security settings. Some recomendations for authenticator apps are: Google Authenticator, Microsoft Authenticator, Authy, Raivo OTP (iOS only), or Aegis Authenticator (Android only)
                 </textarea>
             </div>
 
@@ -704,7 +704,20 @@ Passphrases combine multiple random words for better security. They're longer bu
                 }
             }
         
-            return 0; // Not found
+            return 0;
+        }
+
+        function estimateCrackTime(entropy) {
+            const guesses = 4.4 ** entropy;
+            const guessesPerSecond = 1e7;
+            const seconds = guesses / guessesPerSecond;
+        
+            if (seconds < 60) return `${seconds.toFixed(2)} seconds`;
+            if (seconds < 3600) return `${(seconds / 60).toFixed(2)} minutes`;
+            if (seconds < 86400) return `${(seconds / 3600).toFixed(2)} hours`;
+            if (seconds < 31536000) return `${(seconds / 86400).toFixed(2)} days`;
+            if (seconds < 3.15e8) return `${(seconds / 2.628e6).toFixed(2)} months`;
+            return `${(seconds / 3.154e7).toFixed(2)} years`;
         }
 
         
@@ -840,8 +853,8 @@ Passphrases combine multiple random words for better security. They're longer bu
             const hasUpper = /[A-Z]/.test(password);
             const hasDigit = /\d/.test(password);
             const hasSpecial = /[^a-zA-Z0-9]/.test(password);
+            const crackTime = estimateCrackTime(entropy);
             const isCommon = checkCommonPassword(password);
-        
             const breachCount = await checkPasswordBreach(password);
         
             let html = `
@@ -885,6 +898,12 @@ Passphrases combine multiple random words for better security. They're longer bu
                     <span>Contains special chars:</span>
                     <span class="badge ${hasSpecial ? 'badge-success' : 'badge-warning'}">
                         ${hasSpecial ? 'Yes' : 'No'}
+                    </span>
+                </div>
+                <div class="analysis-item">
+                    <span>Estimated crack time:</span>
+                    <span class="badge ${entropy > 80 ? 'badge-success' : entropy > 50 ? 'badge-warning' : 'badge-danger'}">
+                        ${crackTime}
                     </span>
                 </div>
                 <div class="analysis-item">
