@@ -780,7 +780,7 @@ Passphrases combine multiple random words for better security. They're longer bu
           const postfix = passphrasePostfixInput.value.trim();
         
           if (wordsList.length === 0) {
-            showTooltip(generatePassphraseBtn, 'Word list not loaded yet!');
+            showTooltip(generatePassphraseButton, 'Word list not loaded yet!');
             return;
           }
         
@@ -819,7 +819,7 @@ Passphrases combine multiple random words for better security. They're longer bu
           passphraseStrengthText.textContent = 'Strength: ' + strengthLabel;
           passphraseEntropyDisplay.textContent = `Entropy: ${entropyVal} bits`;
         
-          showTooltip(generatePassphraseBtn, 'Passphrases generated!');
+          showTooltip(generatePassphraseButton, 'Passphrases generated!');
         });
 
         copyPassphraseButton.addEventListener('click', () => {
