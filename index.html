@@ -773,7 +773,7 @@ Passphrases combine multiple random words for better security. They're longer bu
           return (Math.log2(wordsList.length) * numWords).toFixed(2);
         }
 
-        generatePassphraseBtn.addEventListener('click', () => {
+        generatePassphraseButton.addEventListener('click', () => {
           const numWords = parseInt(passphraseLengthInput.value, 10);
           const numPassphrases = parseInt(passphraseCountInput.value, 10);
           const prefix = passphrasePrefixInput.value.trim();
