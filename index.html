@@ -650,14 +650,17 @@ Passphrases combine multiple random words for better security. They're longer bu
     <script>
 
         let wordsList = [];
-        fetch('/words.json')
-          .then(res => res.json())
-          .then(data => {
-            wordsList = data;
-          })
-          .catch(() => {
-            console.error('Failed to load words list.');
-          });
+        async function loadWords() {
+          try {
+            const response = await fetch('/words.json');
+            if (!response.ok) throw new Error('Failed to load words.json');
+            const data = await response.json();
+            wordsList = data.words;
+            console.log(`Loaded ${wordsList.length} words.`);
+          } catch (error) {
+            console.error('Error loading words:', error);
+          }
+        }
         
         const tabElements = document.querySelectorAll('.tab');
         const tabContents = document.querySelectorAll('.tab-content');
@@ -766,11 +769,15 @@ Passphrases combine multiple random words for better security. They're longer bu
             }
         });
 
+        function calculateEntropy_phrases(numWords) {
+          return (Math.log2(wordsList.length) * numWords).toFixed(2);
+        }
+
         generatePassphraseBtn.addEventListener('click', () => {
           const numWords = parseInt(passphraseLengthInput.value, 10);
-          const numPassphrases = parseInt(numPassphrasesInput.value, 10);
-          const prefix = prefixInput.value.trim();
-          const postfix = postfixInput.value.trim();
+          const numPassphrases = parseInt(passphraseCountInput.value, 10);
+          const prefix = passphrasePrefixInput.value.trim();
+          const postfix = passphrasePostfixInput.value.trim();
         
           if (wordsList.length === 0) {
             showTooltip(generatePassphraseBtn, 'Word list not loaded yet!');
@@ -783,11 +790,11 @@ Passphrases combine multiple random words for better security. They're longer bu
           }
         
           if (numPassphrases < 1 || numPassphrases > 10) {
-            showTooltip(numPassphrasesInput, 'Number to generate must be between 1 and 10');
+            showTooltip(passphraseCountInput, 'Number to generate must be between 1 and 10');
             return;
           }
         
-          let results = [];
+          const results = [];
           for (let i = 0; i < numPassphrases; i++) {
             let phrase = generatePassphrase(numWords);
             if (prefix) phrase = prefix + ' ' + phrase;
@@ -795,13 +802,13 @@ Passphrases combine multiple random words for better security. They're longer bu
             results.push(phrase);
           }
         
-          outputPassphrases.value = results.join('\n');
+          passphraseOutputBox.value = results.join('\n');
         
-          const entropyVal = calculateEntropy(numWords);
+          const entropyVal = calculateEntropy_phrases(numWords);
           const maxEntropy = 12 * Math.log2(wordsList.length);
           const strengthPercent = Math.min(100, (entropyVal / maxEntropy) * 100);
         
-          strengthBarPassphrase.style.width = strengthPercent + '%';
+          passphraseStrengthBar.style.width = strengthPercent + '%';
         
           let strengthLabel = 'Weak';
           if (strengthPercent > 80) strengthLabel = 'Very Strong';
@@ -809,30 +816,26 @@ Passphrases combine multiple random words for better security. They're longer bu
           else if (strengthPercent > 40) strengthLabel = 'Moderate';
           else if (strengthPercent > 20) strengthLabel = 'Weak';
         
-          strengthTextPassphrase.textContent = 'Strength: ' + strengthLabel;
-          entropyPassphrase.textContent = `Entropy: ${entropyVal} bits`;
+          passphraseStrengthText.textContent = 'Strength: ' + strengthLabel;
+          passphraseEntropyDisplay.textContent = `Entropy: ${entropyVal} bits`;
         
           showTooltip(generatePassphraseBtn, 'Passphrases generated!');
         });
-        
-        copyPassphraseBtn.addEventListener('click', () => {
-          if (!outputPassphrases.value) {
-            showTooltip(copyPassphraseBtn, 'Nothing to copy!');
+
+        copyPassphraseButton.addEventListener('click', () => {
+          if (!passphraseOutputBox.value) {
+            showTooltip(copyPassphraseButton, 'Nothing to copy!');
             return;
           }
         
-          outputPassphrases.select();
-          outputPassphrases.setSelectionRange(0, 99999); 
+          passphraseOutputBox.select();
+          passphraseOutputBox.setSelectionRange(0, 99999);
         
           try {
-            const successful = document.execCommand('copy');
-            if (successful) {
-              showTooltip(copyPassphraseBtn, 'Copied!');
-            } else {
-              showTooltip(copyPassphraseBtn, 'Copy failed!');
-            }
+            document.execCommand('copy');
+            showTooltip(copyPassphraseButton, 'Copied!');
           } catch (err) {
-            showTooltip(copyPassphraseBtn, 'Copy failed!');
+            showTooltip(copyPassphraseButton, 'Copy failed!');
           }
         
           window.getSelection().removeAllRanges();
