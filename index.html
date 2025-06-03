@@ -756,6 +756,7 @@ Passphrases combine multiple random words for better security. They're longer bu
         loadSettings();
         loadHistory();
         updateStrengthBar();
+        loadWords();
 
         numPasswordsInput.addEventListener('input', () => {
             let value = parseInt(input.value, 10);
@@ -769,6 +770,17 @@ Passphrases combine multiple random words for better security. They're longer bu
             }
         });
 
+
+        function generatePassphrase(numWords) {
+          if (!wordsList.length) return 'Word list not loaded!';
+          let phrase = [];
+          for (let i = 0; i < numWords; i++) {
+            const randomWord = wordsList[Math.floor(Math.random() * wordsList.length)];
+            phrase.push(randomWord);
+          }
+          return phrase.join('-');
+        }
+        
         function calculateEntropy_phrases(numWords) {
           return (Math.log2(wordsList.length) * numWords).toFixed(2);
         }
