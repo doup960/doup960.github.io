@@ -494,6 +494,11 @@
                 <label for="postfix-phrase">Postfix</label>
                 <input type="text" id="postfix-phrase" placeholder="Optional postfix">
               </div>
+                
+              <div class="control-group">
+                <label for="character-between-phrase">Character Between Words</label>
+                <input type="text" id="character-between-phrase" placeholder="Default is '-'">
+              </div>
             
               <button id="generate-passphrase-btn" class="btn btn-block">
                 <i class="fas fa-bolt"></i> Generate Passphrases
@@ -774,11 +779,15 @@ Passphrases combine multiple random words for better security. They're longer bu
         function generatePassphrase(numWords) {
           if (!wordsList.length) return 'Word list not loaded!';
           let phrase = [];
+          const characterInput = document.getElementById('character-between-phrase');
+          const separator = characterInput?.value || '-';
+        
           for (let i = 0; i < numWords; i++) {
             const randomWord = wordsList[Math.floor(Math.random() * wordsList.length)];
             phrase.push(randomWord);
           }
-          return phrase.join('-');
+        
+          return phrase.join(separator);
         }
         
         function calculateEntropy_phrases(numWords) {
@@ -809,8 +818,8 @@ Passphrases combine multiple random words for better security. They're longer bu
           const results = [];
           for (let i = 0; i < numPassphrases; i++) {
             let phrase = generatePassphrase(numWords);
-            if (prefix) phrase = prefix + ' ' + phrase;
-            if (postfix) phrase = phrase + ' ' + postfix;
+            if (prefix) phrase = prefix + phrase;
+            if (postfix) phrase = phrase + postfix;
             results.push(phrase);
           }
         
