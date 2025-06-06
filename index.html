@@ -297,8 +297,10 @@
         .title-bar {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 16px;
-          }
+            text-align: left;
+        }
 
         .password-history {
             max-height: 300px;
@@ -384,6 +386,10 @@
             .tabs {
                 overflow-x: auto;
                 padding-bottom: 0;
+            }
+            .title-bar {
+                flex-direction: column;
+                text-align: center;
             }
         }
     </style>
